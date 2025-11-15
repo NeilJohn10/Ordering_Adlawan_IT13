@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Ordering_Adlawan_IT13</name>
+    </assembly>
+    <members>
+        <member name="T:Ordering_Adlawan_IT13.Services.DatabaseInitializationService">
+            <summary>
+            Database Initialization Service
+            Ensures database and tables exist before application runs
+            </summary>
+        </member>
+        <member name="M:Ordering_Adlawan_IT13.Services.DatabaseInitializationService.InitializeDatabaseAsync">
+            <summary>
+            Initialize database with tables and sample data
+            </summary>
+        </member>
+        <member name="M:Ordering_Adlawan_IT13.Services.DatabaseInitializationService.CreateDatabaseIfNotExistsAsync">
+            <summary>
+            Create database if it doesn't exist
+            </summary>
+        </member>
+        <member name="M:Ordering_Adlawan_IT13.Services.DatabaseInitializationService.CreateTablesAsync">
+            <summary>
+            Create tables if they don't exist
+            </summary>
+        </member>
+        <member name="M:Ordering_Adlawan_IT13.Services.DatabaseInitializationService.InsertSampleDataAsync">
+            <summary>
+            Insert sample data if tables are empty
+            </summary>
+        </member>
+        <member name="M:Ordering_Adlawan_IT13.Services.DatabaseInitializationService.TestConnectionAsync">
+            <summary>
+            Test database connection
+            </summary>
+        </member>
+        <member name="T:Ordering_Adlawan_IT13.Resource">
+            <summary>
+            Android Resource Designer class.
+            Exposes the Android Resource designer assembly into the project Namespace.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,71 @@
+﻿@inherits LayoutComponentBase
+
+<style>
+    .page {
+        display: flex;
+        min-height: 100vh;
+        background: #f8fafc;
+    }
+    
+    .sidebar {
+        flex-shrink: 0;
+   position: sticky;
+        top: 0;
+    }
+ 
+    main {
+        flex: 1;
+        overflow-y: auto;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    }
+    
+    .top-row {
+        background: linear-gradient(90deg, #ffffff 0%, #f8fafc 100%);
+  border-bottom: 1px solid #e2e8f0;
+        padding: 16px 30px !important;
+     display: flex;
+    justify-content: space-between;
+        align-items: center;
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+ .top-row a {
+    color: var(--primary-color);
+  text-decoration: none;
+        font-size: 14px;
+font-weight: 600;
+      transition: color 0.3s ease;
+    padding: 6px 12px;
+        border-radius: 6px;
+    }
+
+    .top-row a:hover {
+   color: var(--primary-dark);
+        background-color: #e0e7ff;
+  }
+    
+    .content {
+   padding: 0 !important;
+    }
+
+    .article-content {
+        padding: 30px;
+    }
+</style>
+
+<div class="page">
+    <div class="sidebar">
+  <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row">
+ <span style="font-weight: 600; color: var(--text-dark);">Food Ordering System</span>
+      <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">Documentation</a>
+    </div>
+
+  <article class="content article-content">
+      @Body
+     </article>
+    </main>
+</div>

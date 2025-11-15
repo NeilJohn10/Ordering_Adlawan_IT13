@@ -1,0 +1,445 @@
+﻿@page "/manage-items"
+@using Ordering_Adlawan_IT13.Models
+@using Ordering_Adlawan_IT13.Services
+@inject OrderingService OrderingService
+@inject IJSRuntime JS
+
+<style>
+    .manage-items-page {
+        padding: 30px;
+    }
+
+ .page-title {
+    font-size: 28px;
+ font-weight: 700;
+      margin-bottom: 30px;
+    color: #1e293b;
+    }
+
+    .form-section {
+        background: white;
+  border-radius: 12px;
+padding: 28px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e2e8f0;
+margin-bottom: 30px;
+    }
+
+    .form-section h3 {
+        font-size: 18px;
+ font-weight: 700;
+        margin-bottom: 24px;
+        color: #1e293b;
+    }
+
+    .form-row {
+        display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+     margin-bottom: 20px;
+}
+
+    .form-group {
+    display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+        font-size: 14px;
+        font-weight: 600;
+  margin-bottom: 8px;
+    color: #1e293b;
+ }
+
+    .form-control, textarea {
+        padding: 10px 14px;
+        border: 1px solid #e2e8f0;
+ border-radius: 8px;
+     font-size: 14px;
+   font-family: inherit;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus, textarea:focus {
+        border-color: #6366f1;
+ box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        outline: none;
+}
+
+    textarea {
+   resize: vertical;
+     min-height: 100px;
+    }
+
+    .button-group {
+    display: grid;
+grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 12px;
+        margin-top: 24px;
+    }
+
+    .btn {
+        padding: 12px 20px;
+   border: none;
+        border-radius: 8px;
+      font-size: 14px;
+     font-weight: 600;
+        cursor: pointer;
+transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+   color: white;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+ }
+
+  .btn-primary:hover {
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.5);
+        transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+     background-color: #f1f5f9;
+        color: #1e293b;
+      border: 1px solid #e2e8f0;
+    }
+
+    .btn-secondary:hover {
+   background-color: #e2e8f0;
+    }
+
+    .message {
+   margin-top: 16px;
+      padding: 14px 16px;
+        border-radius: 8px;
+        border-left: 4px solid;
+   font-size: 14px;
+        animation: slideInAnim 0.3s ease;
+    }
+
+    .message-success {
+ background-color: #dcfce7;
+ color: #166534;
+        border-left-color: #10b981;
+    }
+
+    .message-error {
+        background-color: #fee2e2;
+        color: #991b1b;
+        border-left-color: #ef4444;
+    }
+
+    .items-table-section {
+   background: white;
+        border-radius: 12px;
+   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+ overflow: auto;
+ width: 100%;
+  }
+
+    .items-table-section h3 {
+ font-size: 18px;
+    font-weight: 700;
+        padding: 24px;
+  margin: 0;
+        color: #1e293b;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .table {
+     width: 100%;
+  border-collapse: collapse;
+  background: white;
+   min-width: 800px;
+    }
+
+ .table thead {
+        background: linear-gradient(90deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 2px solid #e2e8f0;
+}
+
+    .table th {
+  padding: 14px;
+        font-weight: 600;
+  font-size: 13px;
+   text-align: left;
+        color: #64748b;
+      text-transform: uppercase;
+     letter-spacing: 0.5px;
+    }
+
+    .table td {
+        padding: 14px;
+  border-bottom: 1px solid #e2e8f0;
+        font-size: 14px;
+    }
+
+    .table tbody tr:hover {
+ background-color: #f8fafc;
+    }
+
+    .table tbody tr:last-child td {
+   border-bottom: none;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 6px 12px;
+ border-radius: 20px;
+   font-size: 12px;
+     font-weight: 600;
+        background-color: #e0e7ff;
+        color: #5b5fe9;
+    }
+
+    .qty-badge {
+   background-color: #f3f4f6;
+color: #1e293b;
+    }
+
+    .action-buttons {
+   display: flex;
+        gap: 8px;
+   flex-wrap: wrap;
+ justify-content: center;
+    }
+
+    .btn-sm {
+     padding: 8px 14px;
+        font-size: 12px;
+        border: 1px solid #e2e8f0;
+        background: white;
+    color: #6366f1;
+        border-radius: 6px;
+        cursor: pointer;
+     transition: all 0.3s ease;
+  white-space: nowrap;
+    }
+
+    .btn-sm:hover {
+ background: #e0e7ff;
+ border-color: #6366f1;
+    }
+
+    .btn-delete {
+     color: #ef4444;
+   border-color: #fee2e2;
+  white-space: nowrap;
+    }
+
+ .btn-delete:hover {
+        background: #fee2e2;
+        border-color: #ef4444;
+    }
+
+ .empty-state {
+  text-align: center;
+  padding: 48px 24px;
+     color: #64748b;
+    }
+
+    .empty-state-icon {
+        font-size: 48px;
+   margin-bottom: 12px;
+    }
+</style>
+
+<div class="manage-items-page">
+  <h1 class="page-title">➕ Manage Food Items</h1>
+
+ <div class="form-section">
+      <h3>@(isEdit ? "✏️ Edit Item" : "➕ Add New Item")</h3>
+
+        <div class="form-row">
+    <div class="form-group">
+  <label>Item Name *</label>
+                <input class="form-control" @bind="currentItem.ItemName" placeholder="e.g., Fried Chicken" />
+          </div>
+
+     <div class="form-group">
+   <label>Category</label>
+     <input class="form-control" @bind="currentItem.Category" placeholder="e.g., Main Course" />
+     </div>
+
+  <div class="form-group">
+       <label>Price (₱) *</label>
+  <input type="number" step="0.01" class="form-control" @bind="currentItem.Price" placeholder="0.00" />
+         </div>
+
+<div class="form-group">
+      <label>Quantity *</label>
+   <input type="number" class="form-control" @bind="currentItem.Quantity" placeholder="0" />
+ </div>
+   </div>
+
+        <div class="form-group">
+            <label>Description</label>
+        <textarea class="form-control" @bind="currentItem.Description" placeholder="Item description..."></textarea>
+    </div>
+
+        <div class="button-group">
+      <button class="btn btn-primary" @onclick="SaveItem">
+ <span>@(isEdit ? "🔄 Update" : "➕ Add Item")</span>
+    </button>
+            <button class="btn btn-secondary" @onclick="ClearForm">🔄 Clear</button>
+</div>
+
+ @if (!string.IsNullOrEmpty(message))
+   {
+          <div class="message @(message.Contains("Error") ? "message-error" : "message-success")">
+             @message
+ </div>
+    }
+    </div>
+
+    <div class="items-table-section">
+ <h3>📦 Food Items Inventory</h3>
+
+        @if (items == null)
+        {
+         <div class="empty-state">
+   <div class="empty-state-icon">⏳</div>
+    <p>Loading items...</p>
+</div>
+        }
+        else if (!items.Any())
+   {
+      <div class="empty-state">
+         <div class="empty-state-icon">📭</div>
+             <p>No items found. Add your first item above!</p>
+      </div>
+      }
+        else
+   {
+         <table class="table">
+     <thead>
+      <tr>
+ <th>ID</th>
+          <th>Item Name</th>
+      <th>Category</th>
+    <th>Price</th>
+     <th>Quantity</th>
+<th>Actions</th>
+        </tr>
+  </thead>
+       <tbody>
+        @foreach (var item in items)
+       {
+       <tr>
+     <td><strong>#@item.ItemId</strong></td>
+       <td><strong>@item.ItemName</strong></td>
+             <td><span class="badge">@(item.Category ?? "—")</span></td>
+         <td><strong>₱@item.Price.ToString("N2")</strong></td>
+       <td><span class="badge qty-badge">@item.Quantity</span></td>
+       <td>
+  <div class="action-buttons">
+          <button class="btn-sm" @onclick="() => EditItem(item)">✏️ Edit</button>
+         <button class="btn-sm btn-delete" @onclick="() => DeleteItem(item.ItemId)">🗑️ Delete</button>
+           </div>
+     </td>
+ </tr>
+   }
+      </tbody>
+ </table>
+     }
+    </div>
+</div>
+
+@code {
+    private List<FoodItem>? items;
+    private FoodItem currentItem = new();
+    private bool isEdit = false;
+    private string? message;
+
+ protected override async Task OnInitializedAsync()
+    {
+      try
+  {
+       await LoadItems();
+  }
+      catch (Exception ex)
+        {
+Console.WriteLine($"Error loading items: {ex.Message}");
+      }
+    }
+
+    private async Task LoadItems()
+    {
+     items = await OrderingService.GetFoodItemsAsync();
+    }
+
+    private void EditItem(FoodItem item)
+    {
+    currentItem = new FoodItem
+     {
+ItemId      = item.ItemId,
+    ItemName    = item.ItemName,
+    Description = item.Description,
+Category    = item.Category,
+ Price       = item.Price,
+         Quantity    = item.Quantity
+        };
+    isEdit = true;
+        message = null;
+    }
+
+    private async Task SaveItem()
+    {
+  if (string.IsNullOrWhiteSpace(currentItem.ItemName))
+ {
+      message = "❌ Item name is required.";
+   return;
+ }
+
+     if (currentItem.Price <= 0 || currentItem.Quantity < 0)
+  {
+message = "❌ Invalid price or quantity.";
+            return;
+        }
+
+      try
+  {
+       if (isEdit)
+     await OrderingService.UpdateFoodItemAsync(currentItem);
+         else
+                await OrderingService.AddFoodItemAsync(currentItem);
+
+          message = isEdit ? "✅ Item updated successfully!" : "✅ Item added successfully!";
+            await LoadItems();
+     ClearForm();
+}
+        catch (Exception ex)
+   {
+    message = $"❌ Error saving item: {ex.Message}";
+  Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+
+    private void ClearForm()
+    {
+   currentItem = new FoodItem();
+      isEdit = false;
+    }
+
+    private async Task DeleteItem(int id)
+    {
+  if (!await JSConfirm("Are you sure you want to delete this item?")) return;
+
+   try
+    {
+     await OrderingService.DeleteFoodItemAsync(id);
+  await LoadItems();
+       message = "✅ Item deleted successfully!";
+  }
+ catch (Exception ex)
+    {
+  message = $"❌ Error deleting item: {ex.Message}";
+   Console.WriteLine($"Error: {ex.Message}");
+ }
+  }
+
+    private async Task<bool> JSConfirm(string text)
+        => await JS.InvokeAsync<bool>("confirm", text);
+}

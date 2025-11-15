@@ -1,0 +1,290 @@
+﻿@page "/"
+@using Ordering_Adlawan_IT13.Services
+@inject OrderingService OrderingService
+
+<style>
+    .dashboard-page {
+        padding: 30px;
+    }
+
+    .page-header {
+        margin-bottom: 32px;
+    }
+
+    .page-header h1 {
+        font-size: 36px;
+     font-weight: 800;
+   background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 8px;
+    }
+
+    .page-header p {
+     font-size: 16px;
+ color: #64748b;
+        margin: 0;
+    }
+
+  .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+        margin-bottom: 32px;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+      padding: 28px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+     border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-card::before {
+  content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+   right: 0;
+        height: 4px;
+      background: linear-gradient(90deg, #6366f1, #ec4899);
+    }
+
+    .stat-card:hover {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  transform: translateY(-6px);
+    }
+
+    .stat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 16px;
+    }
+
+    .stat-icon {
+      font-size: 32px;
+ background: linear-gradient(135deg, #f0f4ff 0%, #fff5f7 100%);
+  width: 56px;
+  height: 56px;
+     border-radius: 12px;
+        display: flex;
+      align-items: center;
+        justify-content: center;
+    }
+
+    .stat-title {
+        font-size: 13px;
+      font-weight: 600;
+     color: #64748b;
+     text-transform: uppercase;
+        letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 40px;
+ font-weight: 800;
+        color: #1e293b;
+        margin-bottom: 12px;
+        line-height: 1;
+    }
+
+    .stat-value.primary {
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+   -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .stat-value.success {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .stat-value.warning {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+  background-clip: text;
+    }
+
+    .stat-value.danger {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .stat-description {
+        font-size: 14px;
+        color: #64748b;
+        font-weight: 500;
+    }
+
+    .stat-description::before {
+        content: '✓ ';
+        color: #10b981;
+        font-weight: 700;
+    }
+
+    .quick-actions {
+ background: white;
+        border-radius: 12px;
+        padding: 28px;
+     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e2e8f0;
+    }
+
+    .quick-actions h2 {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 20px;
+   color: #1e293b;
+ }
+
+    .action-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+    }
+
+    .action-btn {
+        display: flex;
+      flex-direction: column;
+     align-items: center;
+        gap: 12px;
+  padding: 20px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+     text-decoration: none;
+        color: #1e293b;
+        transition: all 0.3s ease;
+     font-weight: 600;
+        cursor: pointer;
+ }
+
+    .action-btn:hover {
+        border-color: #6366f1;
+        background: #f0f4ff;
+        color: #6366f1;
+        transform: translateY(-3px);
+    }
+
+    .action-btn-icon {
+     font-size: 32px;
+    }
+
+    .empty-state-icon {
+ font-size: 48px;
+ margin-bottom: 12px;
+    }
+</style>
+
+<div class="dashboard-page">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>Dashboard</h1>
+      <p>Welcome back! Here's your restaurant overview</p>
+    </div>
+
+ <!-- Statistics Grid -->
+    <div class="dashboard-grid">
+        <!-- Total Items -->
+     <div class="stat-card">
+ <div class="stat-header">
+       <div>
+            <div class="stat-title">Total Items</div>
+     <div class="stat-value primary">@TotalItems</div>
+             </div>
+     <div class="stat-icon">🍲</div>
+     </div>
+     <p class="stat-description">Food items available</p>
+        </div>
+
+        <!-- Total Orders -->
+        <div class="stat-card">
+      <div class="stat-header">
+         <div>
+     <div class="stat-title">Total Orders</div>
+                <div class="stat-value success">@TotalOrders</div>
+        </div>
+                <div class="stat-icon">📋</div>
+         </div>
+            <p class="stat-description">Orders received</p>
+        </div>
+
+        <!-- Pending Orders -->
+        <div class="stat-card">
+      <div class="stat-header">
+       <div>
+           <div class="stat-title">Pending Orders</div>
+               <div class="stat-value warning">@PendingOrders</div>
+     </div>
+ <div class="stat-icon">⏳</div>
+          </div>
+   <p class="stat-description">Orders awaiting</p>
+        </div>
+
+      <!-- Total Revenue -->
+        <div class="stat-card">
+            <div class="stat-header">
+    <div>
+         <div class="stat-title">Total Revenue</div>
+    <div class="stat-value danger">₱@TotalRevenue.ToString("N2")</div>
+   </div>
+ <div class="stat-icon">💰</div>
+        </div>
+    <p class="stat-description">From completed orders</p>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+ <h2>⚡ Quick Actions</h2>
+<div class="action-grid">
+<NavLink href="manage-items" class="action-btn">
+     <span class="action-btn-icon">➕</span>
+     <span>Manage Items</span>
+      </NavLink>
+       <NavLink href="place-order" class="action-btn">
+       <span class="action-btn-icon">🧾</span>
+       <span>Place Order</span>
+            </NavLink>
+            <NavLink href="view-orders" class="action-btn">
+            <span class="action-btn-icon">📋</span>
+         <span>View Orders</span>
+     </NavLink>
+ </div>
+    </div>
+</div>
+
+@code {
+    public int TotalItems { get; set; } = 0;
+    public int TotalOrders { get; set; } = 0;
+  public int PendingOrders { get; set; } = 0;
+    public decimal TotalRevenue { get; set; } = 0m;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+     {
+          var stats = await OrderingService.GetDashboardStatsAsync();
+            TotalItems = stats.TotalItems;
+     TotalOrders = stats.TotalOrders;
+            PendingOrders = stats.PendingOrders;
+  TotalRevenue = stats.TotalRevenue;
+        }
+        catch (Exception ex)
+        {
+     Console.WriteLine($"Error loading dashboard stats: {ex.Message}");
+      }
+    }
+}

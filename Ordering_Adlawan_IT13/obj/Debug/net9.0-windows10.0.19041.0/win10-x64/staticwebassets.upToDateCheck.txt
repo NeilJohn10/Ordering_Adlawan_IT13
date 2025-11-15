@@ -1,0 +1,8 @@
+wwwroot\css\app.css
+wwwroot\css\bootstrap\bootstrap.min.css
+wwwroot\css\bootstrap\bootstrap.min.css.map
+wwwroot\index.html
+C:\Users\Genita\source\repos\Ordering_Adlawan_IT13\Ordering_Adlawan_IT13\wwwroot\css\bootstrap\bootstrap.min.css
+C:\Users\Genita\source\repos\Ordering_Adlawan_IT13\Ordering_Adlawan_IT13\wwwroot\css\bootstrap\bootstrap.min.css.map
+C:\Users\Genita\source\repos\Ordering_Adlawan_IT13\Ordering_Adlawan_IT13\wwwroot\index.html
+C:\Users\Genita\source\repos\Ordering_Adlawan_IT13\Ordering_Adlawan_IT13\wwwroot\css\app.css
